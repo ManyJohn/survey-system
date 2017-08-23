@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>creating survey...</title>
+</head>
+<body>
+	{%if course%}
+		<h1>creating survey for {{ course }} </h1>
+		
+		{% if question_list %}
+			<h2>choose questions from the list</h2>
+			<form method="POST">
+			{% for question in question_list %}
+				<p>
+				<input type="checkbox" name="question" value="{{question[0]}}">{{ question[1] }}
+				</input>
+				</p>
+			{% endfor %}
+			<button type="submit" name="bt" value="submit">submit!</button>
+			</form>
+		{% else %}
+			<h1> <mark>No qustion in pool </mark></h1>
+			<h1><mark>Please add some question first</mark></h1>
+		{%endif%}
+
+
+		<p>	
+			<form>
+		 		 <input type="button" value="back!" onclick="history.back()"></input>
+				<a href="/..">Cancel</a>
+			</form>
+			
+		</p>
+	{%else%}
+		<h1>Course Invaild</h1>
+		<p><a href="../">Cancel</a></p>
+	{%endif%}
+</body>
+</html>

@@ -1,0 +1,22 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>choose a course</title>
+</head>
+<body>
+	<h1>Please choose a course</h1>
+
+	
+	<form method="POST">	
+		
+		<select name = "choice">
+			{% for name in course %}
+			<option value = "{{name}}">{{ name }}</option>
+			{% endfor %}
+		</select>
+		<button type="submit" name="bt" value="submit"> submit! </button>
+	</form>
+	<p><a href="/..">back</p>
+</body>
+</html>
