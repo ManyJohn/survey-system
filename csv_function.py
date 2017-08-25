@@ -25,6 +25,7 @@ def take_in_qustion(question,option):
 
 
 def output_qurstion():
+     with open('question_pool.csv','a') as csv_out:
       question_list=[]
       with open('question_pool.csv','r') as csv_in:
         reader = csv.reader(csv_in)
@@ -66,10 +67,11 @@ def make_survey(file_name,question_list):
     with open(survey_dir+file_name+".csv",'a') as csv_out:
         writer = csv.writer(csv_out)
         for question_id in question_list:
-            options_of_each_question=ast.literal_eval(question_reader[int(question_id)][2])
-            print(options_of_each_question[0])
-            num_of_options=len(options_of_each_question)
-            writer.writerow([question_id,[0]*num_of_options]) 
+            #options_of_each_question=ast.literal_eval(question_reader[int(question_id)][2])
+            #print(options_of_each_question[0])
+            print(question_id,"+id=============")
+            num_of_options=len(question_reader[int(question_id)][2:])
+            writer.writerow([question_id]+['0']*num_of_options) 
             
 #question=input("what is the question?")
 #option=str.split(input("enter option, and sperate them in comma"),',')
