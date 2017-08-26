@@ -9,7 +9,7 @@ def index():
     if request.method == "POST":
         if request.form['bt']=="course":
             return redirect(url_for("choose_course"))
-    return render_template("index.html",add_question_link=url_for("add_question"))
+    return render_template("index.html",add_question_link=url_for("add_question"),view_question_link=url_for("view_question_pool"))
 
 
 @app.route("/add_question", methods=["GET", "POST"])
@@ -49,6 +49,11 @@ def create_survey(course_name):
             print (question_selected)
             make_survey(file_name=course_name,question_list=question_selected)
     return  render_template("create_survey.html",course=course_name,question_list=all_question)
+
+@app.route("/view_question_pool")
+def view_question_pool():
+    question_list = output_qurstion()
+    return  render_template("view_question_pool.html",all_question=question_list,add_question_link=url_for("add_question"))
 
 # launch the integrated development web server
 # and run the app on http://localhost:8085

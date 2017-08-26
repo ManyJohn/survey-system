@@ -2,21 +2,51 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
 	<title>choose a course</title>
+	<!-- using boostrap to style ourpage -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <style>
+    div.jumbotron {
+
+    	padding: 20px
+
+    }
+
+    </style>
 </head>
 <body>
-	<h1>Please choose a course</h1>
-
-	
+	<div>
+		<h1 style="padding: 10px">Please choose a course</h1>
+	</div>
+	<div class="jumbotron" >	
 	<form method="POST">	
-		
-		<select name = "choice">
+		<div style="padding: 20px">
+		<select name = "choice"  class="btn btn-default btn-lg dropdown-toggle">
 			{% for name in course %}
-			<option value = "{{name}}">{{ name }}</option>
+			<option value = "{{name}}"  >{{ name }}</option>
 			{% endfor %}
 		</select>
-		<button type="submit" name="bt" value="submit"> submit! </button>
+		</div>
+		<div style="padding: 10px">
+			<button type="submit" name="bt" class="btn btn-info btn-lg" value="submit"> submit! </button>
+			<a href="/.." class="btn btn-danger btn-lg">back</a>
+		</div>
 	</form>
-	<p><a href="/..">back</p>
+
+	
+	</div>
+
+
+
+
+
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
 </body>
 </html>

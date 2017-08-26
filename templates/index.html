@@ -1,17 +1,45 @@
 <!doctype html>
 
 <html>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
    <head>
    <title>Dash Board </title>
+
+   <!-- using boostrap to style ourpage -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+
    </head>
    <body>
-      <h1> Dash Board </h1>
-      <Form method="POST">
-           <h2> make survey </h2>
-           <button type="submit" name="bt" value="course">sure</button>
-      </Form>
-      <h2><a href="{{add_question_link}}">Add some question</a></h2>
-      
+      <div style="padding: 10px">
+        <h1> Dash Board </h1>
+
+
+      <div style="padding: 20px">
+        <div style="padding: 10px">
+            <Form method="POST">
+             <h2> make survey </h2>
+             <button type="submit" class="btn btn-info btn-lg" name="bt" value="course" role="button">Select course</button>
+            </Form>
+        </div>
+        
+        <div style="padding: 10px">
+          <a href="{{add_question_link}}"  class="btn btn-info btn-lg">Add question</a>
+          <span>
+          <a href="{{view_question_link}}"  class="btn btn-info btn-lg">view question</a>
+          </span>
+        </div>
+      </div>
+
+
+
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
    </body>
 </html>
       
