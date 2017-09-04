@@ -37,10 +37,8 @@ def dashboard():
     if not (username in users and users[username] == password):
         return redirect(url_for("login"))
 
-    if request.method == "POST":
-        if request.form['bt']=="course":
-            return redirect(url_for("choose_course"))
-    return render_template("index.html",add_question_link=url_for("add_question"),view_question_link=url_for("view_question_pool"))
+    return render_template("dashboard.html", questions_link=
+            url_for("add_question"), surveys_link=url_for("choose_course"))
 
 
 @app.route("/add_question", methods=["GET", "POST"])
