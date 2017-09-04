@@ -1,25 +1,21 @@
-# create a Flask application instance
-from flask import Flask, redirect, render_template, request, url_for, make_response
+from flask import * 
 from server import app
-from csv_function import Survey,Question,Course
-# define a route through the app.route decorator
+from csv_function import Survey, Question, Course
+
+# Credentials for Iteration 1
 users={'admin':'admin'}
-session={}
+
 @app.route("/", methods=["GET", "POST"])
 def login():
-    """for the first iteration"""
-    return redirect(url_for("index"))
-    """for the first iteration"""
     if request.method == "POST":
-        if request.form['bt']=="submit":
-            user_name_got= request.form['user_name']
-            pass_word_got= request.form['password']
-            resp = make_response(redirect(url_for("index")))
-            resp.set_cookie('userID',user_name_got)
-            resp.set_cookie('userPass',pass_word_got)
-            print ("I just got",request.cookies.get('userID'))
+        # If the submitted credentials are correct, redirect to dashboard
+        username = request.form['username']
+        password = request.form['password']
+        if username in users and users[username] == password:
+            resp = make_response(redirect(url_for("dashboard")))
+            resp.set_cookie('username', username)
+            resp.set_cookie('password', password)
             return resp
-            
     return render_template("login.html")
 
 @app.route("/checking")
@@ -33,9 +29,14 @@ def check_in():
 
 
 
-@app.route("/dash_board", methods=["GET", "POST"])
-def index():
-    #if not  check_in() : return redirect(url_for("login"))
+@app.route("/dashboard", methods=["GET", "POST"])
+def dashboard():
+    # Ensure cookies contain correct credentials
+    username = request.cookies.get("username")
+    password = request.cookies.get("password")
+    if not (username in users and users[username] == password):
+        return redirect(url_for("login"))
+
     if request.method == "POST":
         if request.form['bt']=="course":
             return redirect(url_for("choose_course"))
