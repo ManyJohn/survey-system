@@ -47,10 +47,10 @@ def add_question():
     #if not  check_in() : return redirect(url_for("login"))
     if request.method == "POST":
         if request.form['bt']=="submit":
-            newQuestion=Question()
             question_get=request.form['question']
             option_get=request.form['option']
-            newQuestion.take_in_qustion(question_get,option_get)
+            newQuestion=Question(question_get,option_get)
+            newQuestion.take_in_qustion()
     return render_template("add_question.html")
 
 
@@ -63,33 +63,31 @@ def error():
 @app.route("/courses", methods=["GET", "POST"])
 def choose_course():
     #if not  check_in() : return redirect(url_for("login"))
-    course_list=Course()
     if request.method=="POST":
         if request.form['bt']=="submit":
             choice=request.form["choice"]
             print(choice)
             return  redirect(url_for("create_survey",course_name=choice))
-    return render_template("course_list.html",dash_board=url_for("index"),course=course_list.output_course())
+    return render_template("course_list.html",dash_board=url_for("index"),course=Course.output_course())
 
 
 @app.route("/create_survey/<course_name>",methods=["GET", "POST"])
 def create_survey(course_name):
     #print(course_name)
     #if not  check_in() : return redirect(url_for("login"))
-    all_question=Question()
+    
     if request.method=="POST":
         if request.form["bt"]=="submit":
             question_selected=request.form.getlist("question")
             print (question_selected)
-            newSurvey=Survey()
-            newSurvey.make_survey(file_name=course_name,question_list=question_selected)
-    return  render_template("create_survey.html",course=course_name,question_list=all_question.output_qurstion())
+            newSurvey=Survey(file_name=course_name,question_list=question_selected)
+            newSurvey.make_survey()
+    return  render_template("create_survey.html",course=course_name,question_list=Question.output_qurstion())
 
 @app.route("/view_question_pool")
 def view_question_pool():
     #if not  check_in() : return redirect(url_for("login"))
-    question_list = Question()
-    return  render_template("view_question_pool.html",all_question=question_list.output_qurstion(),add_question_link=url_for("add_question"))
+    return  render_template("view_question_pool.html",all_question=Question.output_qurstion(),add_question_link=url_for("add_question"))
 
 # launch the integrated development web server
 # and run the app on http://localhost:8085

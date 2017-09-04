@@ -4,7 +4,11 @@ import ast
 
 
 class Question:
-    def take_in_qustion(self,question,option):
+    def __init__(self,question,option):
+        self.question = question
+        self.option = option
+    #@classmethod
+    def take_in_qustion(self):
         with open('question_pool.csv','a') as csv_out:
                 with open('question_pool.csv','r') as csv_in:
                     reader = csv.reader(csv_in)
@@ -12,15 +16,15 @@ class Question:
                     print(i)
                     content=[]
                     content.append(i)
-                    content.append(question)
-                    option=str.split(option,',')
+                    content.append(self.question)
+                    option=str.split(self.option,',')
                     for each_op in option:
                         content.append(each_op)
 
                 writer = csv.writer(csv_out,quoting=csv.QUOTE_ALL)
                 writer.writerow(content) 
-                
-    def output_qurstion(self):
+    @classmethod            
+    def output_qurstion(cls):
          with open('question_pool.csv','a') as csv_out:
           question_list=[]
           with open('question_pool.csv','r') as csv_in:
@@ -30,7 +34,8 @@ class Question:
             return question_list
 
 class Course:
-    """docstring for Course"""       
+    """docstring for Course"""
+    @classmethod       
     def output_course(self):
         course_list=[]
         with open('courses.csv','r') as csv_in:
@@ -57,7 +62,11 @@ class Course:
 
 
 class Survey:
-    def make_survey(self,file_name,question_list):
+    def __init__(self,file_name,question_list):
+        self.file_name=file_name
+        self.question_list=question_list
+
+    def make_survey(self):
         survey_dir="./survey/"
         if not os.path.exists(survey_dir):
             os.makedirs(survey_dir)
@@ -65,9 +74,9 @@ class Survey:
         with open('question_pool.csv','r') as csv_in:
             question_reader = csv.reader(csv_in,quoting=csv.QUOTE_ALL)
             question_reader =list(question_reader)
-        with open(survey_dir+file_name+".csv",'a') as csv_out:
+        with open(survey_dir+self.file_name+".csv",'a') as csv_out:
             writer = csv.writer(csv_out)
-            for question_id in question_list:
+            for question_id in self.question_list:
                 #options_of_each_question=ast.literal_eval(question_reader[int(question_id)][2])
                 #print(options_of_each_question[0])
                 print(question_id,"+id=============")
