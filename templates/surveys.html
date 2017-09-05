@@ -6,6 +6,17 @@
 	<title>Surveys</title>
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+</script>
+<script>
+$(document).ready(function()
+{
+	$("#add-survey-btn").click(function()
+	{
+		$("#add-survey-form").submit();
+	});
+});
+</script>
 </head>
 <body>
 <main class="w3-container">
@@ -16,7 +27,7 @@
 	<div><input type="text" value="URL" readonly></div>
 </div>
 {% endfor %}
-<form id="add-survey-form" class="w3-card-4">
+<form id="add-survey-form" class="w3-card-4" method="POST">
 	<h4>Course</h4>
 	<select name="course">
 		{% for course in courses %}

@@ -54,16 +54,24 @@ def questions():
     question_list = CSVQuestionReader.read()
     return render_template("questions.html", questions=question_list)
 
-@app.route("/surveys")
+@app.route("/surveys", methods=["GET", "POST"])
 def surveys():
     # Ensure cookies contain correct credentials
     username = request.cookies.get("username")
     password = request.cookies.get("password")
     if not (username in users and users[username] == password):
         return redirect(url_for("login"))
+
+    if request.method == "POST":
+        course_offering = request.form["course"]
+        question_ids = request.forms.getlist("question_id")
+        # Instantiate Survey object and pass it to the writer
+        CSVSurveyWriter.write(Survey(course_offering, question_ids))
+
+
     # Read surveys, questions, and unsurveyed course offerings from the readers 
     #   and pass the lists to the Jinja2 template
-    survey_list = DirectorySurveyReader.read()
+    survey_list = CSVSurveyReader.read()
     course_offering_list = CSVCourseOfferingReader.read_unsurveyed()
     questions_list = CSVQuestionReader.read()
     return render_template("surveys.html", surveys=survey_list, 

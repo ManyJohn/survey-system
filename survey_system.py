@@ -79,7 +79,7 @@ class SurveyReader:
     def read():
         pass
 
-class DirectorySurveyReader(SurveyReader):
+class CSVSurveyReader(SurveyReader):
     def read():
         # List of Survey objects, look at the class for details
         survey_list = []
@@ -102,6 +102,17 @@ class DirectorySurveyReader(SurveyReader):
             survey_list.append(Survey(course_offering, question_ids))
         return survey_list
 
+
+class SurveyWriter:
+    __metaclass__ = abc.ABCMeta
+
+    @abc.abstractmethod
+    def write():
+        pass
+
+class CSVSurveyWriter(SurveyWriter):
+    def write(survey):
+        pass
 
 class CourseOfferingReader:
     __metaclass__ = abc.ABCMeta
