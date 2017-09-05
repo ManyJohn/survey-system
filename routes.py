@@ -20,17 +20,6 @@ def login():
             return render_template("login.html", incorrect_creds=True)
     return render_template("login.html", incorrect_creds=False)
 
-@app.route("/checking")
-def check_in():
-    name=request.cookies.get('userID')
-    password=request.cookies.get('userPass')
-    if  users.get(name)is not None and users[name]== password:
-        return True
-    else : 
-        return False
-
-
-
 @app.route("/dashboard")
 def dashboard():
     # Ensure cookies contain correct credentials
@@ -40,7 +29,7 @@ def dashboard():
         return redirect(url_for("login"))
 
     return render_template("dashboard.html", questions_link=
-            url_for("questions"), surveys_link=url_for("choose_course"))
+            url_for("questions"), surveys_link=url_for("surveys"))
 
 @app.route("/questions", methods=["GET", "POST"])
 def questions():
@@ -60,25 +49,20 @@ def questions():
         # Instantiate Question object and pass it to the writer
         QuestionWriterCSV.write(Question(question, choices))
 
-
-
     # Read questions from reader and pass the list of question objects to the 
     #   Jinja2 template
     question_list = QuestionReaderCSV.read()
     return render_template("questions.html", questions=question_list)
-    
 
-@app.route("/add_question", methods=["GET", "POST"])
-def add_question(): 
-    #if not  check_in() : return redirect(url_for("login"))
-    if request.method == "POST":
-        if request.form['bt']=="submit":
-            question_get=request.form['question']
-            option_get=request.form['option']
-            newQuestion=Question(question_get,option_get)
-            newQuestion.take_in_qustion()
-    return render_template("add_question.html")
+@app.route("/surveys")
+def surveys():
+    # Ensure cookies contain correct credentials
+    username = request.cookies.get("username")
+    password = request.cookies.get("password")
+    if not (username in users and users[username] == password):
+        return redirect(url_for("login"))
 
+    return render_template("surveys.html")
 
 @app.route("/error")
 def error():
