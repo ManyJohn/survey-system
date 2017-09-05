@@ -16,7 +16,9 @@ def login():
             resp.set_cookie('username', username)
             resp.set_cookie('password', password)
             return resp
-    return render_template("login.html")
+        else:
+            return render_template("login.html", incorrect_creds=True)
+    return render_template("login.html", incorrect_creds=False)
 
 @app.route("/checking")
 def check_in():
@@ -29,7 +31,7 @@ def check_in():
 
 
 
-@app.route("/dashboard", methods=["GET", "POST"])
+@app.route("/dashboard")
 def dashboard():
     # Ensure cookies contain correct credentials
     username = request.cookies.get("username")
@@ -38,8 +40,19 @@ def dashboard():
         return redirect(url_for("login"))
 
     return render_template("dashboard.html", questions_link=
-            url_for("add_question"), surveys_link=url_for("choose_course"))
+            url_for("questions"), surveys_link=url_for("choose_course"))
 
+@app.route("/questions")
+def questions():
+    # Ensure cookies contain correct credentials
+    username = request.cookies.get("username")
+    password = request.cookies.get("password")
+    if not (username in users and users[username] == password):
+        return redirect(url_for("login"))
+    
+    question_list = Question.read_from_pool()
+    return render_template("questions.html", questions=question_list)
+    
 
 @app.route("/add_question", methods=["GET", "POST"])
 def add_question(): 

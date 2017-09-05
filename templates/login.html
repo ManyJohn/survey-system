@@ -1,13 +1,23 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Login</title>
+<title>Login</title>
+<style>
+.error
+{
+	color: red;
+}
+</style>
 </head>
 <body>
 	<form method="POST">
-	<input placeholder="username" name="username" />
-	<input placeholder="password" name="password" />
-	<input type="submit" text="Login" />
+	<input type="text" placeholder="username" name="username" />
+	<input type="password" placeholder="password" name="password" />
+	<input type="submit" value="Login" />
 	</form>
+	{% if incorrect_creds %}
+	<div class="error">Incorrect credentials</div>
+	{% endif %}
+
 </body>
 </html>

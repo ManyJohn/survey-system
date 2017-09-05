@@ -4,11 +4,26 @@ import ast
 
 
 class Question:
-    def __init__(self,question,option):
-        self.question = question
-        self.option = option
-    #@classmethod
-    def take_in_qustion(self):
+    def __init__(self,question,options):
+        # Question string
+        self.question = question 
+        # List of option strings
+        self.options = options
+
+    @staticmethod
+    def read_from_pool():
+        question_list = []
+        with open("question_pool.csv") as pool_file:
+            csv_reader = csv.reader(pool_file)
+
+            for question in csv_reader:
+                question_list.append(Question(question[1], question[2:]))
+        return question_list
+        
+
+
+
+    """
         with open('question_pool.csv','a') as csv_out:
                 with open('question_pool.csv','r') as csv_in:
                     reader = csv.reader(csv_in)
@@ -23,6 +38,7 @@ class Question:
 
                 writer = csv.writer(csv_out,quoting=csv.QUOTE_ALL)
                 writer.writerow(content) 
+                """
     @classmethod            
     def output_qurstion(cls):
          with open('question_pool.csv','a') as csv_out:
