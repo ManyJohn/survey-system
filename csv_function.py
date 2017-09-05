@@ -51,32 +51,6 @@ class QuestionWriterCSV(QuestionWriter):
         with open("question_pool.csv", "a") as pool_file:
             csv.writer(pool_file).writerow(list_question)
 
-    """
-        with open('question_pool.csv','a') as csv_out:
-                with open('question_pool.csv','r') as csv_in:
-                    reader = csv.reader(csv_in)
-                    i=len(list(reader))
-                    print(i)
-                    content=[]
-                    content.append(i)
-                    content.append(self.question)
-                    option=str.split(self.option,',')
-                    for each_op in option:
-                        content.append(each_op)
-
-                writer = csv.writer(csv_out,quoting=csv.QUOTE_ALL)
-                writer.writerow(content) 
-                """
-    @classmethod            
-    def output_qurstion(cls):
-         with open('question_pool.csv','a') as csv_out:
-          question_list=[]
-          with open('question_pool.csv','r') as csv_in:
-            reader = csv.reader(csv_in)
-            for row in reader:
-               question_list.append(row)
-            return question_list
-
 class Course:
     """docstring for Course"""
     @classmethod       
