@@ -8,6 +8,14 @@ h1
 {
 	text-align: center;
 }
+h4
+{
+	font-weight: bold;
+}
+select
+{
+	padding: 0.5em;
+}
 .survey-row
 {
 	display: flex;
@@ -17,12 +25,36 @@ h1
 	margin-bottom: 1em;
 	background-color: white;
 }
-.survey-add-btn
+.question-row
+{
+	display: flex;
+	align-items: left;
+	padding: 0.9em;
+	margin-bottom: 1em;
+	border-top: medium solid #ccc;
+}
+.question-check
+{
+	align-self: center;
+}
+.question-text
+{
+	flex: 3;
+	align-self: left;
+	padding: 0 1em;
+}
+.question-choices
+{
+	flex: 1;
+	align-self: left;
+}
+#add-survey-btn
 {
 	display: block;
-	margin: 0 1em 1em auto;
+	margin: 0 0 1em auto;
 }
-form.add-survey-overlay
+#add-survey-form
 {
+	padding: 0.9em;
 	background-color: white;
 }

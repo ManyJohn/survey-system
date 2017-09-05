@@ -61,14 +61,13 @@ def surveys():
     password = request.cookies.get("password")
     if not (username in users and users[username] == password):
         return redirect(url_for("login"))
-    # Read surveys from reader and pass the list of Survey objects to the 
-    #   Jinja2 template
+    # Read surveys, questions, and unsurveyed course offerings from the readers 
+    #   and pass the lists to the Jinja2 template
     survey_list = DirectorySurveyReader.read()
-    # Similarly, read course offerings with no surveys from the reader and pass 
-    #   the list of strings to the template
     course_offering_list = CSVCourseOfferingReader.read_unsurveyed()
+    questions_list = CSVQuestionReader.read()
     return render_template("surveys.html", surveys=survey_list, 
-            courses=course_offering_list)
+            questions=questions_list, courses=course_offering_list)
 
 @app.route("/error")
 def error():

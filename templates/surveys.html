@@ -16,10 +16,33 @@
 	<div><input type="text" value="URL" readonly></div>
 </div>
 {% endfor %}
-<form class="w3-card-4 add-survey-overlay">
+<form id="add-survey-form" class="w3-card-4">
+	<h4>Course</h4>
+	<select name="course">
+		{% for course in courses %}
+		<option value="{{ course }}">{{ course }}</option>
+		{% endfor %}
+	</select>
+	<h4>Questions</h4>
+	{% for q in questions %}
+	<div class="question-row">
+		<div class="question-check">
+			<input type="checkbox" class="w3-check" name="question_id" 
+				value="{{ q.id }}">
+		</div>
+		<div class="question-text">
+			{{ q.question }}
+		</div>
 
+		<div class="question-choices">
+			{% for choice in q.choices %}
+			{{ choice }}<br>
+			{% endfor %}
+		</div>
+	</div>
+	{% endfor %}
 </form>
-<input type="button" class="survey-add-btn" value="Add Survey">
+<input type="button" id="add-survey-btn" value="Add Survey">
 </main>
 </body>
 </html>
