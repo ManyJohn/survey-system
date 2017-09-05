@@ -103,8 +103,31 @@ class DirectorySurveyReader(SurveyReader):
         return survey_list
 
 
+class CourseOfferingReader:
+    __metaclass__ = abc.ABCMeta
 
+    @abc.abstractmethod
+    def read():
+        pass
 
+    @classmethod
+    def read_unsurveyed(cls):
+        all_courses = cls.read()
+        surveys = DirectorySurveyReader.read();
+        surveyed_courses = [s.course_offering for s in surveys]
+        unsurveyed_courses = \
+            [item for item in all_courses if item not in surveyed_courses]
+        return unsurveyed_courses
+
+class CSVCourseOfferingReader(CourseOfferingReader):
+    def read():
+        # Read from CSV file which has 1 course offering per line
+        with open("courses.csv", "r") as courses_file:
+            content = courses_file.readlines()
+            # Remove first and last lines and strip new lines
+            course_offering_list = [x.strip() for x in content[1:-1]]
+
+        return course_offering_list
 
         
 class Course:
