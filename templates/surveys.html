@@ -10,6 +10,16 @@
 <body>
 <main class="w3-container">
 <h1>Surveys</h1>
+{% for survey in surveys %}
+<div class="w3-card survey-row">
+	<div>{{ survey.course_offering }}</div>
+	<div><input type="text" value="URL" readonly></div>
+</div>
+{% endfor %}
+<form class="w3-card-4 add-survey-overlay">
+
+</form>
+<input type="button" class="survey-add-btn" value="Add Survey">
 </main>
 </body>
 </html>

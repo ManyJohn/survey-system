@@ -1,6 +1,6 @@
 from flask import * 
 from server import app
-from csv_function import Survey, QuestionReaderCSV, QuestionWriterCSV, Question
+from survey_system import *
 
 # Credentials for Iteration 1
 users={'admin':'admin'}
@@ -47,11 +47,11 @@ def questions():
         for i in range(no_choices):
             choices.append(request.form["choice" + str(i)])
         # Instantiate Question object and pass it to the writer
-        QuestionWriterCSV.write(Question(question, choices))
+        CSVQuestionWriter.write(Question(question, choices))
 
-    # Read questions from reader and pass the list of question objects to the 
+    # Read questions from reader and pass the list of Question objects to the 
     #   Jinja2 template
-    question_list = QuestionReaderCSV.read()
+    question_list = CSVQuestionReader.read()
     return render_template("questions.html", questions=question_list)
 
 @app.route("/surveys")
@@ -61,8 +61,10 @@ def surveys():
     password = request.cookies.get("password")
     if not (username in users and users[username] == password):
         return redirect(url_for("login"))
-
-    return render_template("surveys.html")
+    # Read surveys from reader and pass the list of Survey objects to the 
+    #   Jinja2 template
+    survey_list = DirectorySurveyReader.read()
+    return render_template("surveys.html", surveys=survey_list)
 
 @app.route("/error")
 def error():

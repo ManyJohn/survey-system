@@ -1,12 +1,18 @@
-import csv, os, ast, abc
-
+import csv, os, ast, abc, re
 
 class Question:
-    def __init__(self, question, choices):
+    # Passing in question_id is optional. No question_id is denoted by -1
+    def __init__(self, question, choices, question_id=-1):
+        # Question ID (int)
+        self.__question_id = question_id
         # Question string
         self.__question = question 
         # List of option strings
         self.__choices = choices
+
+    @property
+    def question_id(self):
+        return self.__question_id
 
     @property
     def question(self):
@@ -23,14 +29,14 @@ class QuestionReader:
     def read():
         pass
 
-class QuestionReaderCSV(QuestionReader):
+class CSVQuestionReader(QuestionReader):
     def read():
         question_list = []
         with open("question_pool.csv", "r") as pool_file:
             csv_reader = csv.reader(pool_file)
 
-            for question in csv_reader:
-                question_list.append(Question(question[1], question[2:]))
+            for q in csv_reader:
+                question_list.append(Question(q[1], q[2:], q[0]))
         return question_list
         
 class QuestionWriter:
@@ -40,7 +46,7 @@ class QuestionWriter:
     def write():
         pass
 
-class QuestionWriterCSV(QuestionWriter):
+class CSVQuestionWriter(QuestionWriter):
     def write(question):
         # Get next question number from question pool 
         with open("question_pool.csv", "r") as pool_file:
@@ -51,6 +57,56 @@ class QuestionWriterCSV(QuestionWriter):
         with open("question_pool.csv", "a") as pool_file:
             csv.writer(pool_file).writerow(list_question)
 
+class Survey:
+    def __init__(self, course_offering, question_ids):
+        # String representing course offering
+        self.__course_offering = course_offering
+        # List of question IDs in the survey
+        self.__question_ids = question_ids
+
+    @property
+    def course_offering(self):
+        return self.__course_offering
+
+    @property
+    def question_ids(self):
+        return self.__question_ids
+
+class SurveyReader:
+    __metaclass__ = abc.ABCMeta
+
+    @abc.abstractmethod
+    def read():
+        pass
+
+class DirectorySurveyReader(SurveyReader):
+    def read():
+        # List of Survey objects, look at the class for details
+        survey_list = []
+        # Filter all .csv file names in surveys directory
+        survey_files = list(filter(lambda x: re.search("(.)+\.csv", x) is not 
+            None, os.listdir("surveys")))
+        # Extract data from each survey file
+        for s in survey_files:
+            # List of Question IDs for this particular survey
+            question_ids = []
+            with open("surveys/" + s, "r") as s_file:
+                reader = csv.reader(s_file)
+                # Question ID is the first element of each row, append this
+                #   to our question_ids list
+                for q in reader:
+                    question_ids.append(q[0])
+            # Course offering is the survey CSV file name, <course>.csv
+            course_offering = s[:-4]
+            # Instantiate Survey object and append to survey_list
+            survey_list.append(Survey(course_offering, question_ids))
+        return survey_list
+
+
+
+
+
+        
 class Course:
     """docstring for Course"""
     @classmethod       
@@ -77,7 +133,7 @@ class Course:
         return course_list
 
 
-
+"""
 
 class Survey:
     def __init__(self,file_name,question_list):
@@ -109,4 +165,4 @@ class Survey:
 
 
 #make_survey(file_name="name",question_list=[0])
-
+"""

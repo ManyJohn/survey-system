@@ -1,10 +1,28 @@
 main
 {
-	width: 60rem;
+	width: 65rem;
 	background-color: #ccc;
 	margin: auto;
 }
 h1
 {
 	text-align: center;
+}
+.survey-row
+{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 0.9em;
+	margin-bottom: 1em;
+	background-color: white;
+}
+.survey-add-btn
+{
+	display: block;
+	margin: 0 1em 1em auto;
+}
+form.add-survey-overlay
+{
+	background-color: white;
 }
