@@ -82,8 +82,8 @@ $(document).ready(function()
 	<tr>
 		<td>{{  question.question }}</td>
 		<td>
-			{% for option in question.options %}
-			{{ option }}<br />
+			{% for choice in question.choices %}
+			{{ choice }}<br />
 			{% endfor %}
 		</td>
 	</tr>

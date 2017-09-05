@@ -1,35 +1,55 @@
-import csv
-import os
-import ast
+import csv, os, ast, abc
 
 
 class Question:
-    def __init__(self,question,options):
+    def __init__(self, question, choices):
         # Question string
         self.__question = question 
         # List of option strings
-        self.__options = options
+        self.__choices = choices
 
     @property
     def question(self):
         return self.__question
 
     @property
-    def options(self):
-        return self.__options
+    def choices(self):
+        return self.__choices
 
-    @staticmethod
-    def read_from_pool():
+class QuestionReader:
+    __metaclass__ = abc.ABCMeta
+
+    @abc.abstractmethod
+    def read():
+        pass
+
+class QuestionReaderCSV(QuestionReader):
+    def read():
         question_list = []
-        with open("question_pool.csv") as pool_file:
+        with open("question_pool.csv", "r") as pool_file:
             csv_reader = csv.reader(pool_file)
 
             for question in csv_reader:
                 question_list.append(Question(question[1], question[2:]))
         return question_list
         
+class QuestionWriter:
+    __metaclass__ = abc.ABCMeta
 
+    @abc.abstractmethod
+    def write():
+        pass
 
+class QuestionWriterCSV(QuestionWriter):
+    def write(question):
+        # Get next question number from question pool 
+        with open("question_pool.csv", "r") as pool_file:
+            next_question_no = list(csv.reader(pool_file)).pop()[0]
+
+        list_question = [next_question_no, question.question] + question.choices
+
+        with open("question_pool.csv", "a") as pool_file:
+            csv.writer(pool_file).writerow(list_question)
 
     """
         with open('question_pool.csv','a') as csv_out:

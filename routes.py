@@ -1,6 +1,6 @@
 from flask import * 
 from server import app
-from csv_function import Survey, Question, Course
+from csv_function import Survey, QuestionReaderCSV, QuestionWriterCSV, Question
 
 # Credentials for Iteration 1
 users={'admin':'admin'}
@@ -42,15 +42,29 @@ def dashboard():
     return render_template("dashboard.html", questions_link=
             url_for("questions"), surveys_link=url_for("choose_course"))
 
-@app.route("/questions")
+@app.route("/questions", methods=["GET", "POST"])
 def questions():
     # Ensure cookies contain correct credentials
     username = request.cookies.get("username")
     password = request.cookies.get("password")
     if not (username in users and users[username] == password):
         return redirect(url_for("login"))
-    
-    question_list = Question.read_from_pool()
+
+    if request.method == "POST":
+        question = request.form["question"]
+        no_choices = int(request.form["no_choices"])
+        choices = []
+        # Append all choices to list
+        for i in range(no_choices):
+            choices.append(request.form["choice" + str(i)])
+        # Instantiate Question object and pass it to the writer
+        QuestionWriterCSV.write(Question(question, choices))
+
+
+
+    # Read questions from reader and pass the list of question objects to the 
+    #   Jinja2 template
+    question_list = QuestionReaderCSV.read()
     return render_template("questions.html", questions=question_list)
     
 
