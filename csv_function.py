@@ -6,9 +6,17 @@ import ast
 class Question:
     def __init__(self,question,options):
         # Question string
-        self.question = question 
+        self.__question = question 
         # List of option strings
-        self.options = options
+        self.__options = options
+
+    @property
+    def question(self):
+        return self.__question
+
+    @property
+    def options(self):
+        return self.__options
 
     @staticmethod
     def read_from_pool():
