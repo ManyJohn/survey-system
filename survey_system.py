@@ -102,6 +102,46 @@ class CSVSurveyReader(SurveyReader):
             survey_list.append(Survey(course_offering, question_ids))
         return survey_list
 
+class SurveyResponse:
+    def __init__(self, course_offering, results):
+        # String representing course offering
+        self.__course_offering = course_offering
+        # Dictionary with question IDs as keys and the index of the choice 
+        #   selected as values
+        self.__results = results
+
+    @property
+    def course_offering(self):
+        return self.__course_offering
+
+    @property
+    def results(self):
+        return self.__results
+
+class SurveyResponseWriter:
+    __metaclass__ = abc.ABCMeta
+
+    @abc.abstractmethod
+    def write():
+        pass
+
+class CSVSurveyResponseWriter(SurveyResponseWriter):
+    def write(s_response):
+        s_filename = "surveys/" + s.response.course_offering + ".csv"
+        with open(s_filename, "r") as s_file:
+            s_data = list(csv.reader(s_file))
+        # Add all results from response object to CSV list s_data
+        for question_id, answer in s_response.results.items():
+            # Get reference to relevant row in CSV list
+            question_row = [row for row in s_data if row[0] == question_id][0]
+            # Increment the choice count for the chosen answer in the row
+            question_row[1 + answer] = int(question_row[1 + answer]) + 1
+        # Now that the relevant rows in s_data is updated, write to file
+        # Note that the file is overwritten since all the file data was 
+        #   already taken in to s_data
+        with open(s_filename, "w") as s_file:
+            csv.writer(s_file).writerows(s_data)
+
 
 class SurveyWriter:
     __metaclass__ = abc.ABCMeta
