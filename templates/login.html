@@ -1,23 +1,39 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Login</title>
-<style>
-.error
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+</script>
+<script>
+$(document).ready(function()
 {
-	color: red;
-}
-</style>
+	$("#login-form .button").click(function()
+	{
+		$("#login-form").submit();
+	});
+});
+</script>
 </head>
 <body>
-	<form method="POST">
-	<input type="text" placeholder="username" name="username" />
-	<input type="password" placeholder="password" name="password" />
-	<input type="submit" value="Login" />
-	</form>
+<div id="page-container" class="w3-card-4">
+<header class="w3-container w3-blue"><h1>Login</h1></header>
+<main class="w3-container">
+	<form id="login-form" class="w3-card" method="POST">
+	<label class="w3-text-blue">Username</label>
+	<input type="text" name="username" class="w3-input">
+	<label class="w3-text-blue">Password</label>
+	<input type="password" name="password" class="w3-input">
 	{% if incorrect_creds %}
-	<div class="error">Incorrect credentials</div>
+	<div class="w3-text-red">Incorrect credentials</div>
 	{% endif %}
-
+	<div class="button">Login</div>
+	</form>
+</main>
+</div>
 </body>
 </html>

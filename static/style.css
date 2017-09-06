@@ -95,12 +95,12 @@ select
 }
 #add-survey-btn
 {
-	text-align: center;
 	font-size: 1.5em;
 	padding: 0.4em;
 }
 .button
 {
+	text-align: center;
 	color: white;
 	background-color: #0c87eb;
 	padding: 0.5em;
@@ -141,6 +141,22 @@ select
 	margin-bottom: 1em;
 }
 #add-question-form input:last-child
+{
+	margin-bottom: 0;
+}
+#login-form
+{
+	font-size: 1.2em;
+	padding: 2em;
+	box-sizing: border-box;
+}
+#login-form *
+{
+	display: block;
+	width: 100%;
+	margin-bottom: 1em;
+}
+#login-form *:last-child
 {
 	margin-bottom: 0;
 }
