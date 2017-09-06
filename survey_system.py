@@ -81,6 +81,10 @@ class SurveyRW:
     def read_all():
         pass
 
+    @classmethod
+    def read(cls, s_name):
+        return [s for s in cls.read_all() if s.course_offering == s_name][0]
+
     @abc.abstractmethod
     def write(survey):
         pass
@@ -149,13 +153,15 @@ class SurveyResponseRW:
 
 class CSVSurveyResponseRW(SurveyResponseRW):
     def write(s_response):
-        s_filename = "surveys/" + s.response.course_offering + ".csv"
+        s_filename = "surveys/" + s_response.course_offering + ".csv"
         with open(s_filename, "r") as s_file:
             s_data = list(csv.reader(s_file))
         # Add all results from response object to CSV list s_data
         for question_id, answer in s_response.results.items():
+            question_id = int(question_id)
+            answer = int(answer)
             # Get reference to relevant row in CSV list
-            question_row = [row for row in s_data if row[0] == question_id][0]
+            question_row = [row for row in s_data if int(row[0]) == question_id][0]
             # Increment the choice count for the chosen answer in the row
             question_row[1 + answer] = int(question_row[1 + answer]) + 1
         # Now that the relevant rows in s_data is updated, write to file

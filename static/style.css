@@ -16,21 +16,25 @@ select
 {
 	padding: 0.5em;
 }
+.w3-card
+{
+	background-color: white;
+}
+.row-card
+{
+	padding: 0.9em;
+	margin-bottom: 1em;
+}
 .survey-row
 {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	padding: 0.9em;
-	margin-bottom: 1em;
-	background-color: white;
 }
 .question-row
 {
 	display: flex;
 	align-items: left;
-	padding: 0.9em;
-	margin-bottom: 1em;
 	border-top: medium solid #ccc;
 }
 .question-check

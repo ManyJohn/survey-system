@@ -73,3 +73,16 @@ def surveys():
     questions_list = CSVQuestionRW.read_all()
     return render_template("surveys.html", surveys=survey_list, 
             questions=questions_list, courses=course_offering_list)
+
+@app.route("/fill_survey/<survey_name>", methods=["GET", "POST"])
+def fill_survey(survey_name):
+    survey_name = survey_name.replace("-", " ")
+    if request.method == "POST":
+        results = request.form.to_dict()
+        CSVSurveyResponseRW.write(SurveyResponse(survey_name, results))        
+
+    survey = CSVSurveyRW.read(survey_name)
+    question_list = [CSVQuestionRW.read(q) for q in survey.question_ids]
+    return render_template("fill_survey.html", survey_name=survey_name,
+            questions=question_list)
+

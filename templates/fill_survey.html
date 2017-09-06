@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ survey_name }}</title>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+</script>
+<script>
+$(document).ready(function()
+{
+	$("#add-survey-btn").click(function()
+	{
+		$("#add-survey-form").submit();
+	});
+});
+</script>
+</head>
+<body>
+<main class="w3-container">
+<h1>{{ survey_name }}</h1>
+<form id="survey-form" method="POST">
+	{% for question in questions %}
+	<div class="w3-card row-card">
+		<div>{{ question.question }}</div>
+			{% for choice in question.choices %}
+			<div><input type="radio" name="{{ question.id }}" 
+				value="{{ loop.index0 }}">{{ choice }}</div>
+			{% endfor %}
+	</div>
+	{% endfor %}
+<input type="submit">
+</form>
+</main>
+</body>
+</html>

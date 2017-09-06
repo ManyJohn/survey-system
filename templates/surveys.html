@@ -22,9 +22,11 @@ $(document).ready(function()
 <main class="w3-container">
 <h1>Surveys</h1>
 {% for survey in surveys %}
-<div class="w3-card survey-row">
+<div class="w3-card row-card survey-row">
 	<div>{{ survey.course_offering }}</div>
-	<div><input type="text" value="URL" readonly></div>
+	<div><input type="text" 
+		value="/fill_survey/{{survey.course_offering.replace(" ", "-")}}" readonly>
+	</div>
 </div>
 {% endfor %}
 <form id="add-survey-form" class="w3-card-4" method="POST">
@@ -36,7 +38,7 @@ $(document).ready(function()
 	</select>
 	<h4>Questions</h4>
 	{% for q in questions %}
-	<div class="question-row">
+	<div class="row-card question-row">
 		<div class="question-check">
 			<input type="checkbox" class="w3-check" name="question_id" 
 				value="{{ q.id }}">
