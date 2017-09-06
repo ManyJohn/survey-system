@@ -5,29 +5,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Questions</title>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+</script>
 <style>
-h1
-{
-	text-align: center;
-}
-table
-{
-	width: 100%;
-}
-table.questions
-{
-	margin: 1em;
-}
-table.questions td
-{
-	vertical-align: top;
-}
-a.btn
-{
-	max-width: 50%;
-	margin: 1em auto;
-}
 form.add-questions
 {
 	margin: 0.5em;
@@ -50,11 +33,6 @@ form.add-questions
 	padding-left: 1em;
 	padding-right: 1em;
 }
-input
-{
-	width: 100%;
-	margin-top: 1em;
-}
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">
 </script>
@@ -66,39 +44,46 @@ $(document).ready(function()
 		var no_choices = parseInt($("input[name=no_choices]").val());
 		if ($.trim($("input[name=choice" + no_choices + "]").val()) != "")
 		{
-			$(".flex-choices").append('<input type="text" placeholder="Choice" ' +
-					'name="choice' + (no_choices + 1) + '" size="18"/>');
+			$(".choices").append('<input type="text" placeholder="Choice" ' +
+					'name="choice' + (no_choices + 1) + '" size="18" class="w3-input"/>');
 			$("input[name=no_choices]").val(no_choices + 1);
 		}
+	});
+	$("#add-question-form .button").click(function()
+	{
+		$("#add-question-form").submit();
 	});
 });
 </script>
 </head>
 <body>
-<h1>Questions</h1>
-<table class="questions">
+<div id="page-container" class="w3-card-4">
+<header class="w3-container w3-blue"><h1>Questions</h1></header>
+<main class="w3-container">
 	{% for question in questions %}
-	<tr>
-		<td>{{  question.question }}</td>
-		<td>
+	<div class="w3-card row-card question-row">
+		<div>{{ question.question }}</div>
+		<div>
 			{% for choice in question.choices %}
 			{{ choice }}<br />
 			{% endfor %}
-		</td>
-	</tr>
+		</div>
+	</div>
 	{% endfor %}
-</table>
-<form class="add-questions" method="POST">
-		<div class="flex-question">
-			<input type="text" placeholder="Question" name="question" />
-		</div>
-		<div class="flex-choices">
-			<input type="hidden" name="no_choices" value="0"/>
-			<input type="text" placeholder="Choice" name="choice0" size="18"/>
-		</div>
-		<div class="add-btn-container">
-			<input type="submit" value="Add Question" />
-		</div>
+<form id="add-question-form" class="w3-card" method="POST">
+	<div class="question">
+		<input type="text" name="question" class="w3-input" placeholder="Question">
+	</div>
+	<div class="choices">
+		<input type="hidden" name="no_choices" value="0">
+		<input type="text" name="choice0" class="w3-input" placeholder="Choice"
+			size="18">
+	</div>
+	<div class="add">
+		<div class="button">Add Question</div>
+	</div>
 </form>
+</main>
+</div>
 </body>
 </html>

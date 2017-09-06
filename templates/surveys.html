@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Surveys</title>
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">
 </script>
@@ -13,32 +14,44 @@ $(document).ready(function()
 {
 	$("#add-survey-btn").click(function()
 	{
-		$("#add-survey-form").submit();
+		if ($("#hidden").css("display") == "none")
+		{
+			$("#hidden").slideDown(500);
+		}
+		else
+		{
+			$("#add-survey-btn").text("Adding");
+			$("#hidden").slideUp(500, function()
+			{
+				$("#add-survey-form").submit();
+			});
+		}
 	});
 });
 </script>
 </head>
 <body>
+<div id="page-container" class="w3-card-4">
+<header class="w3-container w3-blue"><h1>Surveys</h1></header>
 <main class="w3-container">
-<h1>Surveys</h1>
 {% for survey in surveys %}
-<div class="w3-card row-card survey-row">
+{% set link = "/fill_survey/" + survey.course_offering.replace(" ", "-") %}
+<a class="w3-card row-card survey-row" href="{{ link }}">
 	<div>{{ survey.course_offering }}</div>
-	<div><input type="text" 
-		value="/fill_survey/{{survey.course_offering.replace(" ", "-")}}" readonly>
-	</div>
-</div>
+	<div><input type="text" value="{{ link }}" readonly></div></a>
 {% endfor %}
-<form id="add-survey-form" class="w3-card-4" method="POST">
-	<h4>Course</h4>
+<div id="hidden">
+<div class="w3-card w3-text-blue card-header"><h3>New Survey</h3></div>
+<form id="add-survey-form" class="w3-card" method="POST">
+	<h4 class="w3-text-blue">Course</h4>
 	<select name="course">
 		{% for course in courses %}
 		<option value="{{ course }}">{{ course }}</option>
 		{% endfor %}
 	</select>
-	<h4>Questions</h4>
+	<h4 class="w3-text-blue">Questions</h4>
 	{% for q in questions %}
-	<div class="row-card question-row">
+	<div class="row-card question-check-row">
 		<div class="question-check">
 			<input type="checkbox" class="w3-check" name="question_id" 
 				value="{{ q.id }}">
@@ -55,7 +68,9 @@ $(document).ready(function()
 	</div>
 	{% endfor %}
 </form>
-<input type="button" id="add-survey-btn" value="Add Survey">
+</div>
+<div id="add-survey-btn" class="w3-container button">Add Survey</div>
 </main>
+</div>
 </body>
 </html>
