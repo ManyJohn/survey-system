@@ -42,16 +42,13 @@ def questions():
     if request.method == "POST":
         question = request.form["question"]
         no_choices = int(request.form["no_choices"])
-        choices = []
-        # Append all choices to list
-        for i in range(no_choices):
-            choices.append(request.form["choice" + str(i)])
+        choices = [request.form["choice" + str(i)] for i in range(no_choices)]
         # Instantiate Question object and pass it to the writer
-        CSVQuestionWriter.write(Question(question, choices))
+        CSVQuestionRW.write(Question(question, choices))
 
     # Read questions from reader and pass the list of Question objects to the 
     #   Jinja2 template
-    question_list = CSVQuestionReader.read()
+    question_list = CSVQuestionRW.read_all()
     return render_template("questions.html", questions=question_list)
 
 @app.route("/surveys", methods=["GET", "POST"])
@@ -64,55 +61,15 @@ def surveys():
 
     if request.method == "POST":
         course_offering = request.form["course"]
-        question_ids = request.forms.getlist("question_id")
+        question_ids = request.form.getlist("question_id")
         # Instantiate Survey object and pass it to the writer
-        CSVSurveyWriter.write(Survey(course_offering, question_ids))
+        CSVSurveyRW.write(Survey(course_offering, question_ids))
 
 
     # Read surveys, questions, and unsurveyed course offerings from the readers 
     #   and pass the lists to the Jinja2 template
-    survey_list = CSVSurveyReader.read()
-    course_offering_list = CSVCourseOfferingReader.read_unsurveyed()
-    questions_list = CSVQuestionReader.read()
+    survey_list = CSVSurveyRW.read_all()
+    course_offering_list = CSVCourseOfferingsRW.read_unsurveyed()
+    questions_list = CSVQuestionRW.read_all()
     return render_template("surveys.html", surveys=survey_list, 
             questions=questions_list, courses=course_offering_list)
-
-@app.route("/error")
-def error():
-    print ("<h1>404!!!!!!!!!!!!!!!!!!!!!!</h1>")
-    return "<h1>403</h1>"
-
-
-@app.route("/courses", methods=["GET", "POST"])
-def choose_course():
-    #if not  check_in() : return redirect(url_for("login"))
-    if request.method=="POST":
-        if request.form['bt']=="submit":
-            choice=request.form["choice"]
-            print(choice)
-            return  redirect(url_for("create_survey",course_name=choice))
-    return render_template("course_list.html",dash_board=url_for("index"),course=Course.output_course())
-
-
-@app.route("/create_survey/<course_name>",methods=["GET", "POST"])
-def create_survey(course_name):
-    #print(course_name)
-    #if not  check_in() : return redirect(url_for("login"))
-    
-    if request.method=="POST":
-        if request.form["bt"]=="submit":
-            question_selected=request.form.getlist("question")
-            print (question_selected)
-            newSurvey=Survey(file_name=course_name,question_list=question_selected)
-            newSurvey.make_survey()
-    return  render_template("create_survey.html",course=course_name,question_list=Question.output_qurstion())
-
-@app.route("/view_question_pool")
-def view_question_pool():
-    #if not  check_in() : return redirect(url_for("login"))
-    return  render_template("view_question_pool.html",all_question=Question.output_qurstion(),add_question_link=url_for("add_question"))
-
-# launch the integrated development web server
-# and run the app on http://localhost:8085
-#if __name__=="__main__":
-#   app.run(debug=True,port=8085)

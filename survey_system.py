@@ -22,41 +22,43 @@ class Question:
     def choices(self):
         return self.__choices
 
-class QuestionReader:
+class QuestionRW:
     __metaclass__ = abc.ABCMeta
 
     @abc.abstractmethod
-    def read():
+    def read_all():
         pass
 
-class CSVQuestionReader(QuestionReader):
-    def read():
-        question_list = []
+    @classmethod
+    def read(cls, question_id):
+        return [q for q in cls.read_all() if q.id == question_id][0]
+
+    @classmethod
+    def get_no_choices(cls, question_id):
+        return len(cls.read(question_id).choices)
+
+    @abc.abstractmethod
+    def write(question):
+        pass
+
+class CSVQuestionRW(QuestionRW):
+    def read_all():
         with open("question_pool.csv", "r") as pool_file:
             csv_reader = csv.reader(pool_file)
+            question_list = [Question(q[1], q[2:], q[0]) for q in csv_reader]
 
-            for q in csv_reader:
-                question_list.append(Question(q[1], q[2:], q[0]))
         return question_list
-        
-class QuestionWriter:
-    __metaclass__ = abc.ABCMeta
 
-    @abc.abstractmethod
-    def write():
-        pass
-
-class CSVQuestionWriter(QuestionWriter):
     def write(question):
         # Get next question number from question pool 
         with open("question_pool.csv", "r") as pool_file:
-            next_question_no = list(csv.reader(pool_file)).pop()[0]
+            next_question_no = int(list(csv.reader(pool_file)).pop()[0]) + 1
 
         list_question = [next_question_no, question.question] + question.choices
 
         with open("question_pool.csv", "a") as pool_file:
             csv.writer(pool_file).writerow(list_question)
-
+        
 class Survey:
     def __init__(self, course_offering, question_ids):
         # String representing course offering
@@ -72,20 +74,24 @@ class Survey:
     def question_ids(self):
         return self.__question_ids
 
-class SurveyReader:
+class SurveyRW:
     __metaclass__ = abc.ABCMeta
 
     @abc.abstractmethod
-    def read():
+    def read_all():
         pass
 
-class CSVSurveyReader(SurveyReader):
-    def read():
+    @abc.abstractmethod
+    def write(survey):
+        pass
+
+class CSVSurveyRW(SurveyRW):
+    def read_all():
         # List of Survey objects, look at the class for details
         survey_list = []
         # Filter all .csv file names in surveys directory
-        survey_files = list(filter(lambda x: re.search("(.)+\.csv", x) is not 
-            None, os.listdir("surveys")))
+        survey_files = [f for f in os.listdir("surveys") if 
+                re.search("(.)+\.csv", f) is not None]
         # Extract data from each survey file
         for s in survey_files:
             # List of Question IDs for this particular survey
@@ -101,6 +107,22 @@ class CSVSurveyReader(SurveyReader):
             # Instantiate Survey object and append to survey_list
             survey_list.append(Survey(course_offering, question_ids))
         return survey_list
+
+    def write(survey):
+        survey_file_name = "surveys/" + survey.course_offering + ".csv"
+        # Prevent attempts to overwrite existing surveys
+        if os.path.exists(survey_file_name):
+            return
+
+        # Produce list of rows to be written to file, each row starts with
+        #   a question ID (of a question in the survey), followed by a 0 for
+        #   each choice of answer
+        # TODO Use dependency injection to get QuestionRW class rather than
+        #   hardcoding CSVQuestionRW
+        survey_file_data = [[q_id] + [0]*CSVQuestionRW.get_no_choices(q_id) 
+                for q_id in survey.question_ids]
+        with open(survey_file_name, "w") as s_file:
+            csv.writer(s_file).writerows(survey_file_data)
 
 class SurveyResponse:
     def __init__(self, course_offering, results):
@@ -118,14 +140,14 @@ class SurveyResponse:
     def results(self):
         return self.__results
 
-class SurveyResponseWriter:
+class SurveyResponseRW:
     __metaclass__ = abc.ABCMeta
 
     @abc.abstractmethod
     def write():
         pass
 
-class CSVSurveyResponseWriter(SurveyResponseWriter):
+class CSVSurveyResponseRW(SurveyResponseRW):
     def write(s_response):
         s_filename = "surveys/" + s.response.course_offering + ".csv"
         with open(s_filename, "r") as s_file:
@@ -142,19 +164,7 @@ class CSVSurveyResponseWriter(SurveyResponseWriter):
         with open(s_filename, "w") as s_file:
             csv.writer(s_file).writerows(s_data)
 
-
-class SurveyWriter:
-    __metaclass__ = abc.ABCMeta
-
-    @abc.abstractmethod
-    def write():
-        pass
-
-class CSVSurveyWriter(SurveyWriter):
-    def write(survey):
-        pass
-
-class CourseOfferingReader:
+class CourseOfferingsRW:
     __metaclass__ = abc.ABCMeta
 
     @abc.abstractmethod
@@ -164,13 +174,13 @@ class CourseOfferingReader:
     @classmethod
     def read_unsurveyed(cls):
         all_courses = cls.read()
-        surveys = DirectorySurveyReader.read();
+        surveys = CSVSurveyRW.read_all();
         surveyed_courses = [s.course_offering for s in surveys]
         unsurveyed_courses = \
             [item for item in all_courses if item not in surveyed_courses]
         return unsurveyed_courses
 
-class CSVCourseOfferingReader(CourseOfferingReader):
+class CSVCourseOfferingsRW(CourseOfferingsRW):
     def read():
         # Read from CSV file which has 1 course offering per line
         with open("courses.csv", "r") as courses_file:
