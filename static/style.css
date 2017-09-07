@@ -216,7 +216,7 @@ select
 		width: 100%;
 	}
 }
-#login-form input
+#login-form input, #login-form .w3-text-red
 {
 	display: block;
 	width: 100%;
