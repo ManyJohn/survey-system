@@ -10,11 +10,19 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">
 </script>
 <script>
+function login()
+{
+	$("#login-form").submit();
+}
 $(document).ready(function()
 {
-	$("#login-form .button").click(function()
+	$("#login-form .button").click(login);
+	$("input").keypress(function (e)
 	{
-		$("#login-form").submit();
+		if (e.which == 13)
+		{
+			login();
+		}
 	});
 });
 </script>

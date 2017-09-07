@@ -21,6 +21,46 @@ main.w3-container
 	background-color: #e0e0e0;
 	padding: 1em;
 }
+.flex-container
+{
+	width: 40rem;
+	margin: auto;
+	display: flex;
+}
+@media screen and (max-width: 40rem)
+{
+	.flex-container
+	{
+		width: 100%;
+	}
+}
+#questions-box-btn, #surveys-box-btn
+{
+	flex: 1;
+	text-decoration: none;
+}
+#questions-box-btn
+{
+	margin-right: 0.5em;
+}
+#surveys-box-btn
+{
+	margin-left: 0.5em;
+}
+.graphic > img
+{
+	padding: 2em;
+	display: block;
+	margin: auto;
+	width: 45%;
+}
+#questions-box-btn .label, #surveys-box-btn .label
+{
+	border-top: medium solid #2196f3;
+	text-align: center;
+	font-size: 1.8em;
+}
+
 #add-survey-form
 {
 	padding: 0.01em 0.9em 0;
@@ -64,9 +104,18 @@ select
 	display: flex;
 	justify-content: space-between;
 }
-.question-row div
+.question-row > div, .question-answer-row > div
 {
 	padding: 0.9em;
+}
+.question-answer-row .choices
+{
+	display: flex;
+	align-items: center;
+}
+.question-answer-row .choices .choice
+{
+	padding-left: 1em;
 }
 .question-check-row
 {
@@ -93,7 +142,7 @@ select
 	flex: 1;
 	align-self: left;
 }
-#add-survey-btn
+#add-survey-btn, #survey-form .button
 {
 	font-size: 1.5em;
 	padding: 0.4em;
@@ -146,9 +195,18 @@ select
 }
 #login-form
 {
+	width: 30rem;
+	margin: auto;
 	font-size: 1.2em;
 	padding: 2em;
 	box-sizing: border-box;
+}
+@media screen and (max-width: 30rem)
+{
+	#login-form
+	{
+		width: 100%;
+	}
 }
 #login-form *
 {

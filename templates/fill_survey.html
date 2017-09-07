@@ -11,28 +11,32 @@
 <script>
 $(document).ready(function()
 {
-	$("#add-survey-btn").click(function()
+	$("#survey-form .button").click(function()
 	{
-		$("#add-survey-form").submit();
+		$("#survey-form").submit();
 	});
 });
 </script>
 </head>
 <body>
+<div id="page-container" class="w3-card-4">
+<header class="w3-container w3-blue"><h1>{{ survey_name }}</h1></header>
 <main class="w3-container">
-<h1>{{ survey_name }}</h1>
 <form id="survey-form" method="POST">
 	{% for question in questions %}
-	<div class="w3-card row-card">
+	<div class="w3-card row-card question-answer-row">
 		<div>{{ question.question }}</div>
 			{% for choice in question.choices %}
-			<div><input type="radio" name="{{ question.id }}" 
-				value="{{ loop.index0 }}">{{ choice }}</div>
+			<div class="choices">
+				<div><input type="radio" class="w3-radio" name="{{ question.id }}" 
+					value="{{ loop.index0 }}"></div>
+				<div class="choice">{{ choice }}</div></div>
 			{% endfor %}
 	</div>
 	{% endfor %}
-<input type="submit">
+	<div class="button">Submit</div>
 </form>
 </main>
+</div>
 </body>
 </html>
