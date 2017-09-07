@@ -7,7 +7,7 @@ body
 {
 	width: 65rem;
 	box-sizing: content-box;
-	margin: auto;
+	margin: 0 auto 1em;;
 }
 @media screen and (max-width: 65rem)
 {
@@ -60,7 +60,15 @@ main.w3-container
 	text-align: center;
 	font-size: 1.8em;
 }
-
+.w3-bar
+{
+	background-color: #074b83;
+	color: white;
+}
+.w3-bar .current-item
+{
+	
+}
 #add-survey-form
 {
 	padding: 0.01em 0.9em 0;
@@ -121,7 +129,7 @@ select
 {
 	display: flex;
 	align-items: left;
-	border-top: medium solid #ccc;
+	border-top: thin solid #2196f3;
 }
 .row-card.question-check-row:last-child
 {
@@ -165,7 +173,7 @@ select
 #add-question-form
 {
 	display: flex;
-	background-color: #d2eafd;
+	background-color: #a6d4fa;
 }
 #add-question-form > div
 {
@@ -208,13 +216,9 @@ select
 		width: 100%;
 	}
 }
-#login-form *
+#login-form input
 {
 	display: block;
 	width: 100%;
-	margin-bottom: 1em;
-}
-#login-form *:last-child
-{
-	margin-bottom: 0;
+	margin-bottom: 2em;
 }

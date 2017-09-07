@@ -15,13 +15,16 @@ href="http://cdn.materialdesignicons.com/2.0.46/css/materialdesignicons.min.css"
 <body>
 <div id="page-container" class="w3-card-4">
 <header class="w3-container w3-blue"><h1>Dashboard</h1></header>
+<div class="w3-bar">
+	<a href="/" class="w3-bar-item w3-button w3-right">Logout</a>
+</div>
 <main class="w3-container">
 <div class="flex-container">
-<a id="questions-box-btn" class="w3-card" href="{{questions_link}}">
-	<div class="graphic w3-text-blue"><img src="static/questions.svg"></div>
+<a id="questions-box-btn" class="w3-card" href="/questions">
+	<div class="graphic w3-text-blue"><img src="/static/questions.svg"></div>
 	<div class="label w3-text-blue">Questions</div></a>
-<a id="surveys-box-btn" class="w3-card" href="{{surveys_link}}">
-	<div class="graphic"><img src="static/surveys.svg"></div>
+<a id="surveys-box-btn" class="w3-card" href="/surveys">
+	<div class="graphic"><img src="/static/surveys.svg"></div>
 	<div class="label w3-text-blue">Surveys</div></a>
 </div>
 </main>

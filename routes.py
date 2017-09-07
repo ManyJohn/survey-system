@@ -20,7 +20,7 @@ def login():
             return render_template("login.html", incorrect_creds=True)
     return render_template("login.html", incorrect_creds=False)
 
-@app.route("/dashboard")
+@app.route("/dashboard/")
 def dashboard():
     # Ensure cookies contain correct credentials
     username = request.cookies.get("username")
@@ -28,10 +28,9 @@ def dashboard():
     if not (username in users and users[username] == password):
         return redirect(url_for("login"))
 
-    return render_template("dashboard.html", questions_link=
-            url_for("questions"), surveys_link=url_for("surveys"))
+    return render_template("dashboard.html")
 
-@app.route("/questions", methods=["GET", "POST"])
+@app.route("/questions/", methods=["GET", "POST"])
 def questions():
     # Ensure cookies contain correct credentials
     username = request.cookies.get("username")
@@ -51,7 +50,7 @@ def questions():
     question_list = CSVQuestionRW.read_all()
     return render_template("questions.html", questions=question_list)
 
-@app.route("/surveys", methods=["GET", "POST"])
+@app.route("/surveys/", methods=["GET", "POST"])
 def surveys():
     # Ensure cookies contain correct credentials
     username = request.cookies.get("username")
@@ -74,7 +73,7 @@ def surveys():
     return render_template("surveys.html", surveys=survey_list, 
             questions=questions_list, courses=course_offering_list)
 
-@app.route("/fill_survey/<survey_name>", methods=["GET", "POST"])
+@app.route("/fill_survey/<survey_name>/", methods=["GET", "POST"])
 def fill_survey(survey_name):
     survey_name = survey_name.replace("-", " ")
     if request.method == "POST":

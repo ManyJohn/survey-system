@@ -33,6 +33,12 @@ $(document).ready(function()
 <body>
 <div id="page-container" class="w3-card-4">
 <header class="w3-container w3-blue"><h1>Questions</h1></header>
+<div class="w3-bar">
+	<a href="/dashboard" class="w3-bar-item w3-button">Dashboard</a>
+	<a href="/questions" class="w3-bar-item w3-button current-item">Questions</a>
+	<a href="/surveys" class="w3-bar-item w3-button">Surveys</a>
+	<a href="/" class="w3-bar-item w3-button w3-right">Logout</a>
+</div>
 <main class="w3-container">
 	{% for question in questions %}
 	<div class="w3-card row-card question-row">
