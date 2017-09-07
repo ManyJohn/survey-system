@@ -79,6 +79,7 @@ def fill_survey(survey_name):
     if request.method == "POST":
         results = request.form.to_dict()
         CSVSurveyResponseRW.write(SurveyResponse(survey_name, results))        
+        return render_template("sent_survey.html", survey_name=survey_name)
 
     survey = CSVSurveyRW.read(survey_name)
     question_list = [CSVQuestionRW.read(q) for q in survey.question_ids]

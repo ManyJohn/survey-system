@@ -161,6 +161,7 @@ select
 	color: white;
 	background-color: #0c87eb;
 	padding: 0.5em;
+	text-decoration: none;
 }
 .button:hover
 {
@@ -221,4 +222,14 @@ select
 	display: block;
 	width: 100%;
 	margin-bottom: 2em;
+}
+#sent-survey
+{
+	padding: 2em;
+	text-align: center;
+}
+#sent-survey > a.button
+{
+	display: inline-block;
+	margin-top: 2em;
 }
