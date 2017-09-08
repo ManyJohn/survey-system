@@ -20,6 +20,14 @@ def login():
             return render_template("login.html", incorrect_creds=True)
     return render_template("login.html", incorrect_creds=False)
 
+@app.route("/logout")
+def logout():
+    resp = make_response(redirect(url_for("login")))
+    resp.set_cookie('username','')
+    resp.set_cookie('password','')
+    return resp
+
+
 @app.route("/dashboard/")
 def dashboard():
     # Ensure cookies contain correct credentials
