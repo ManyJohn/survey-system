@@ -12,15 +12,23 @@
 </script>
 <script>
 $(document).ready(function()
-{
+{	
+
 	$(document).on("input", "input[name^=choice]", function()
-	{
+	{	
+		<!-- discard the error msg when the user want to type question -->
+		if (document.getElementById("error-bar")) {
+			document.getElementById("error-bar").style.display='none'
+		}
+
 		var no_choices = parseInt($("input[name=no_choices]").val());
 		if ($.trim($("input[name=choice" + no_choices + "]").val()) != "")
 		{
 			$(".choices").append('<input type="text" placeholder="Choice" ' +
 					'name="choice' + (no_choices + 1) + '" size="18" class="w3-input"/>');
 			$("input[name=no_choices]").val(no_choices + 1);
+			
+			
 		}
 	});
 	$("#add-question-form .button").click(function()
@@ -39,6 +47,9 @@ $(document).ready(function()
 	<a href="/surveys" class="w3-bar-item w3-button">Surveys</a>
 	<a href="/" class="w3-bar-item w3-button w3-right">Logout</a>
 </div>
+
+
+
 <main class="w3-container">
 	{% for question in questions %}
 	<div class="w3-card row-card question-row">
@@ -50,7 +61,12 @@ $(document).ready(function()
 		</div>
 	</div>
 	{% endfor %}
+
+
+
+
 <form id="add-question-form" class="w3-card" method="POST">
+
 	<div class="question">
 		<input type="text" name="question" class="w3-input" placeholder="Question">
 	</div>
@@ -63,6 +79,25 @@ $(document).ready(function()
 		<div class="button">Add Question</div>
 	</div>
 </form>
+
+
+{% if error == 1 %}
+<div id="error-bar" class="w3-bar w3-red">
+  <strong class="w3-bar-item">Add question fail</strong>
+  <span class="w3-bar-item w3-right" style="cursor: pointer;" onclick="this.parentElement.style.display='none';">x</span>
+  </p>
+ 
+</div>
+{%elif error == 0 %}
+<div  id="error-bar" class="w3-bar w3-green">
+  <strong class="w3-bar-item">Adding question success!</strong>
+  <span class="w3-bar-item w3-right" style="cursor: pointer;" onclick="this.parentElement.style.display='none';">x</span>
+  </p>
+ 
+</div>
+{%endif%}
+
+
 </main>
 </div>
 </body>

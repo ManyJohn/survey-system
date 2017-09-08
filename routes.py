@@ -45,18 +45,18 @@ def questions():
     password = request.cookies.get("password")
     if not (username in users and users[username] == password):
         return redirect(url_for("login"))
-
+    errorno=-1 
     if request.method == "POST":
         question = request.form["question"]
         no_choices = int(request.form["no_choices"])
         choices = [request.form["choice" + str(i)] for i in range(no_choices)]
         # Instantiate Question object and pass it to the writer
-        CSVQuestionRW.write(Question(question, choices))
+        errorno=CSVQuestionRW.write(Question(question, choices))
 
     # Read questions from reader and pass the list of Question objects to the 
     #   Jinja2 template
     question_list = CSVQuestionRW.read_all()
-    return render_template("questions.html", questions=question_list)
+    return render_template("questions.html", questions=question_list,error=errorno)
 
 @app.route("/surveys/", methods=["GET", "POST"])
 def surveys():
