@@ -39,7 +39,7 @@ class QuestionRW:
 
     @abc.abstractmethod
     def write(question):
-        pass
+        return 1 #return errorno
 
 class CSVQuestionRW(QuestionRW):
     def read_all():
@@ -58,7 +58,7 @@ class CSVQuestionRW(QuestionRW):
 
         with open("question_pool.csv", "a") as pool_file:
             csv.writer(pool_file).writerow(list_question)
-        
+        return 0
 class Survey:
     def __init__(self, course_offering, question_ids):
         # String representing course offering
@@ -116,7 +116,7 @@ class CSVSurveyRW(SurveyRW):
         survey_file_name = "surveys/" + survey.course_offering + ".csv"
         # Prevent attempts to overwrite existing surveys
         if os.path.exists(survey_file_name):
-            return
+            return 1
 
         # Produce list of rows to be written to file, each row starts with
         #   a question ID (of a question in the survey), followed by a 0 for
