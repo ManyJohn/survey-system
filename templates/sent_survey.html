@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ survey_name }}</title>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+</script>
+<script>
+$(document).ready(function()
+{
+	$("#survey-form .button").click(function()
+	{
+		$("#survey-form").submit();
+	});
+});
+</script>
+</head>
+<body>
+<div id="page-container" class="w3-card-4">
+<header class="w3-container w3-blue"><h1>{{ survey_name }}</h1></header>
+<main class="w3-container">
+<div id="sent-survey"><div>Your response has been submitted. Thank you.</div>
+	<a class="button" href="">Submit Another Response</a></div>
+</main>
+</div>
+</body>
+</html>
