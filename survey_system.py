@@ -195,3 +195,17 @@ class CSVCourseOfferingsRW(CourseOfferingsRW):
             course_offering_list = [x.strip() for x in content[1:-1]]
 
         return course_offering_list
+
+class CSVCourseOfferingsRW_V2(CourseOfferingsRW):
+    def read():
+        file_name = "requiredFiles_iteration2/courses.csv"
+        if not os.path.exists(file_name):
+            return None
+        course_offering_list=[]
+        with open("requiredFiles_iteration2/courses.csv", "r") as courses_file:
+            content = csv.reader(courses_file)
+            for row in content:
+                course_offering_list.append(row)
+
+        return course_offering_list
+
