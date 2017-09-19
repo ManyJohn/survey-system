@@ -1,5 +1,39 @@
 import csv, os, ast, abc, re
 
+class User:
+    def __init__(self,uid=None,passcode=None,enroll_type=None):
+        self.__id = uid
+        self.__passcode=passcode
+        self.type=enroll_type
+    @property
+    def id(self):
+        return self.__id 
+    
+    @property
+    def passcode(self):
+        return self.__passcode
+
+    @property
+    def enroll_type(self):
+        return self._enroll_type
+
+
+class LoadUser:
+    __metaclass__ = abc.ABCMeta
+    
+    @abc.abstractmethod
+    def read():
+        pass
+
+class CSVLoadUser(LoadUser):
+    def read():
+        user_list=[]
+        with open("requiredFiles_iteration2/passwords.csv","r") as user_file:
+            csv_reader=csv.reader(user_file)
+            for row in csv_reader:
+                #print (row)
+                user_list.append(row)
+        return user_list
 class Question:
     # Passing in question_id is optional. No question_id is denoted by -1
     def __init__(self, question, choices, question_id=-1):
