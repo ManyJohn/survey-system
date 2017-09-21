@@ -1,10 +1,30 @@
 import csv, os, ast, abc, re
 
+
+class LoadEnrollment():
+    __metaclass__ = abc.ABCMeta
+    
+    @abc.abstractmethod
+    def read():
+        pass
+class CSVLoadEnrollment(LoadEnrollment):
+    def read():
+        enrolment_list=[]
+        with open("requiredFiles_iteration2/enrolments.csv","r") as enrolment_file:
+            csv_reader=csv.reader(enrolment_file)
+            for row in csv_reader:
+                #print (row)
+                enrolment_list.append(row)
+        return enrolment_list
+
+
+
+
 class User:
     def __init__(self,uid=None,passcode=None,enroll_type=None):
         self.__id = uid
         self.__passcode=passcode
-        self.type=enroll_type
+        self.__type=enroll_type
     @property
     def id(self):
         return self.__id 
@@ -15,7 +35,7 @@ class User:
 
     @property
     def enroll_type(self):
-        return self._enroll_type
+        return self.__enroll_type
 
 
 class LoadUser:
