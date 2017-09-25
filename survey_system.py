@@ -93,7 +93,7 @@ class QuestionRW:
 
     @abc.abstractmethod
     def write(question):
-        return 1 #return errorno
+        pass
 
 class CSVQuestionRW(QuestionRW):
     def read_all():
@@ -113,6 +113,7 @@ class CSVQuestionRW(QuestionRW):
         with open("question_pool.csv", "a") as pool_file:
             csv.writer(pool_file).writerow(list_question)
         return 0
+
 class Survey:
     def __init__(self, course_offering, question_ids):
         # String representing course offering

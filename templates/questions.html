@@ -45,12 +45,23 @@ $(document).ready(function()
 	<a href="/dashboard" class="w3-bar-item w3-button">Dashboard</a>
 	<a href="/questions" class="w3-bar-item w3-button current-item">Questions</a>
 	<a href="/surveys" class="w3-bar-item w3-button">Surveys</a>
-	<a href="/" class="w3-bar-item w3-button w3-right">Logout</a>
+	<a href="/logout" class="w3-bar-item w3-button w3-right">Logout</a>
 </div>
 
 
 
 <main class="w3-container">
+	
+	{% if status == 0 %}
+	<div id="status-panel" class="w3-panel w3-green">
+		<p>Question successfully added.</p>
+	</div>
+	{% elif status != -1 %}
+	<div id="status-panel" class="w3-panel w3-red">
+		<p>Error adding question.</p>
+	</div>
+	{% endif %}
+
 	{% for question in questions %}
 	<div class="w3-card row-card question-row">
 		<div>{{ question.question }}</div>
