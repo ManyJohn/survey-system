@@ -40,7 +40,7 @@ class DBModel(object):
 
 	def insert_course_record(self,courses_type,courses_no,courses_year,courses_sem):
 		command=\
-		"INSERT INTO COURSES(COURSE_TYPE,COURSE_NO,COURSE_YEAR,COURSE_SEM) VALUES ('{}',{},{},'{}')".\
+		"INSERT INTO COURSES(ID,COURSE_TYPE,COURSE_NO,COURSE_YEAR,COURSE_SEM) VALUES (NULL,'{}',{},{},'{}')".\
 		format(courses_type,courses_no,courses_year,courses_sem)
 		self._insert(command)
 
@@ -83,4 +83,4 @@ class DBView(object):
 
 
 new=DBcontroller()
-new.add_enrollment_from_csv()
+new.add_courses_from_csv()
