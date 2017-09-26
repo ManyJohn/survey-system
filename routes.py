@@ -20,7 +20,7 @@ def login():
             return render_template("login.html", incorrect_creds=True)
     return render_template("login.html", incorrect_creds=False)
 
-@app.route("/logout")
+@app.route("/logout/")
 def logout():
     resp = make_response(redirect(url_for("login")))
     resp.set_cookie('username','')
@@ -45,18 +45,20 @@ def questions():
     password = request.cookies.get("password")
     if not (username in users and users[username] == password):
         return redirect(url_for("login"))
-    errorno=-1 
+
+    q_add_status = -1
     if request.method == "POST":
         question = request.form["question"]
         no_choices = int(request.form["no_choices"])
         choices = [request.form["choice" + str(i)] for i in range(no_choices)]
         # Instantiate Question object and pass it to the writer
-        errorno=CSVQuestionRW.write(Question(question, choices))
+        q_add_status = CSVQuestionRW.write(Question(question, choices))
 
     # Read questions from reader and pass the list of Question objects to the 
     #   Jinja2 template
     question_list = CSVQuestionRW.read_all()
-    return render_template("questions.html", questions=question_list,error=errorno)
+    return render_template("questions.html", questions=question_list, 
+            status=q_add_status)
 
 @app.route("/surveys/", methods=["GET", "POST"])
 def surveys():

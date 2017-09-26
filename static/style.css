@@ -171,6 +171,10 @@ select
 {
 	background-color: #074b83;
 }
+#status-panel
+{
+	margin-top: 0;
+}
 #add-question-form
 {
 	display: flex;
