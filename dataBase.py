@@ -82,5 +82,5 @@ class DBView(object):
 	pass
 
 
-new=DBcontroller()
-new.add_courses_from_csv()
+#new=DBcontroller()
+#new.add_courses_from_csv()

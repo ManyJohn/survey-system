@@ -144,6 +144,7 @@ class SurveyRW:
     def write(survey):
         pass
 
+
 class CSVSurveyRW(SurveyRW):
     def read_all():
         # List of Survey objects, look at the class for details
